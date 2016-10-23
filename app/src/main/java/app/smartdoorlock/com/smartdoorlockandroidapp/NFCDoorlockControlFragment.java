@@ -16,17 +16,17 @@ import android.widget.Toast;
 import static android.nfc.NdefRecord.createMime;
 
 
-public class NFCP2PInitiatorFragment extends Fragment implements NfcAdapter.CreateNdefMessageCallback, NfcAdapter.OnNdefPushCompleteCallback {
+public class NFCDoorlockControlFragment extends Fragment implements NfcAdapter.CreateNdefMessageCallback, NfcAdapter.OnNdefPushCompleteCallback {
 
     private IFragmentInteractionListener mListener;
     private NfcAdapter mNfcAdapter;
 
-    public NFCP2PInitiatorFragment() {
+    public NFCDoorlockControlFragment() {
         // Required empty public constructor
     }
 
-    public static NFCP2PInitiatorFragment newInstance() {
-        NFCP2PInitiatorFragment fragment = new NFCP2PInitiatorFragment();
+    public static NFCDoorlockControlFragment newInstance() {
+        NFCDoorlockControlFragment fragment = new NFCDoorlockControlFragment();
         return fragment;
     }
 
@@ -39,7 +39,7 @@ public class NFCP2PInitiatorFragment extends Fragment implements NfcAdapter.Crea
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        View v = inflater.inflate(R.layout.fragment_nfcp2p_initiator, container, false);
+        View v = inflater.inflate(R.layout.fragment_nfc_doorlock_control, container, false);
 
         mNfcAdapter = NfcAdapter.getDefaultAdapter(getActivity());
         if (mNfcAdapter == null) {
@@ -81,7 +81,7 @@ public class NFCP2PInitiatorFragment extends Fragment implements NfcAdapter.Crea
                 "Beam Time: " + System.currentTimeMillis());
         NdefMessage msg = new NdefMessage(
                 new NdefRecord[] { createMime(
-                        "application/vnd.com.example.android.beam", text.getBytes())
+                        "application/com.example.android.beam", text.getBytes())
                         /**
                          * The Android Application Record (AAR) is commented out. When a device
                          * receives a push with an AAR in it, the application specified in the AAR
