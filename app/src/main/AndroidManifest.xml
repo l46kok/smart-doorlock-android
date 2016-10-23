@@ -22,7 +22,7 @@
 
         <!-- BEGIN_INCLUDE(CardEmulationManifest) -->
         <!-- Service for handling communication with NFC terminal. -->
-        <service android:name=".NFCDoorlockControl"
+        <service android:name=".NFCDoorlockHCE"
             android:exported="true"
             android:permission="android.permission.BIND_NFC_SERVICE">
             <!-- Intent filter indicating that we support card emulation. -->
