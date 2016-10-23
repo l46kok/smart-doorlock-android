@@ -8,18 +8,21 @@ import android.nfc.NfcAdapter;
 import android.nfc.NfcEvent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
 
+import app.smartdoorlock.com.smartdoorlockandroidapp.Enums.CommandEnum;
+import app.smartdoorlock.com.smartdoorlockandroidapp.Utility.SPHelper;
+
 import static android.nfc.NdefRecord.createMime;
 
 
-public class NFCDoorlockControlFragment extends Fragment implements NfcAdapter.CreateNdefMessageCallback, NfcAdapter.OnNdefPushCompleteCallback {
+public class NFCDoorlockControlFragment extends Fragment {
 
     private IFragmentInteractionListener mListener;
-    private NfcAdapter mNfcAdapter;
 
     public NFCDoorlockControlFragment() {
         // Required empty public constructor
@@ -41,13 +44,6 @@ public class NFCDoorlockControlFragment extends Fragment implements NfcAdapter.C
         // Inflate the layout for this fragment
         View v = inflater.inflate(R.layout.fragment_nfc_doorlock_control, container, false);
 
-        mNfcAdapter = NfcAdapter.getDefaultAdapter(getActivity());
-        if (mNfcAdapter == null) {
-            Toast.makeText(getActivity(), "NFC is not available", Toast.LENGTH_LONG).show();
-            return v;
-        }
-        // Register callback
-        mNfcAdapter.setNdefPushMessageCallback(this, getActivity());
         return v;
     }
 
@@ -67,36 +63,18 @@ public class NFCDoorlockControlFragment extends Fragment implements NfcAdapter.C
             throw new RuntimeException(context.toString()
                     + " must implement OnFragmentInteractionListener");
         }
+        String phoneId = SPHelper.getString(getActivity(),SPHelper.KEY_PHONE_ID);
+        if (TextUtils.isEmpty(phoneId)) {
+            SPHelper.putCommand(getActivity(),SPHelper.CURRENT_COMMAND, CommandEnum.NONE);
+        }
+        else {
+            SPHelper.putCommand(getActivity(),SPHelper.CURRENT_COMMAND, CommandEnum.DOORLOCK_CONTROL);
+        }
     }
 
     @Override
     public void onDetach() {
         super.onDetach();
         mListener = null;
-    }
-
-    @Override
-    public NdefMessage createNdefMessage(NfcEvent event) {
-        String text = ("Beam me up, Android!\n\n" +
-                "Beam Time: " + System.currentTimeMillis());
-        NdefMessage msg = new NdefMessage(
-                new NdefRecord[] { createMime(
-                        "application/com.example.android.beam", text.getBytes())
-                        /**
-                         * The Android Application Record (AAR) is commented out. When a device
-                         * receives a push with an AAR in it, the application specified in the AAR
-                         * is guaranteed to run. The AAR overrides the tag dispatch system.
-                         * You can add it back in to guarantee that this
-                         * activity starts when receiving a beamed message. For now, this code
-                         * uses the tag dispatch system.
-                        */
-                        //,NdefRecord.createApplicationRecord("com.example.android.beam")
-                });
-        return msg;
-    }
-
-    @Override
-    public void onNdefPushComplete(NfcEvent event) {
-        Toast.makeText(getActivity(),"NDEF Pushed",Toast.LENGTH_LONG).show();
     }
 }
