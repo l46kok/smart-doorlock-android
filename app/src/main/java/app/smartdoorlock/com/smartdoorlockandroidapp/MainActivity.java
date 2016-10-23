@@ -1,10 +1,6 @@
 package app.smartdoorlock.com.smartdoorlockandroidapp;
 
-import android.content.Intent;
-import android.nfc.NdefMessage;
-import android.nfc.NfcAdapter;
 import android.os.Bundle;
-import android.os.Parcelable;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.design.widget.NavigationView;
@@ -15,12 +11,13 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.widget.Toast;
+
+import app.smartdoorlock.com.smartdoorlockandroidapp.Enums.CommandEnum;
+import app.smartdoorlock.com.smartdoorlockandroidapp.Utility.SPHelper;
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener , IFragmentInteractionListener {
 
-    private NfcAdapter mNfcAdapter;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -37,12 +34,6 @@ public class MainActivity extends AppCompatActivity
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
 
-        // Check for available NFC Adapter
-        mNfcAdapter = NfcAdapter.getDefaultAdapter(this);
-        if (mNfcAdapter == null) {
-            Toast.makeText(this, "NFC is not available", Toast.LENGTH_LONG).show();
-            return;
-        }
     }
 
     @Override
@@ -78,31 +69,18 @@ public class MainActivity extends AppCompatActivity
     }
 
     @Override
-    public void onResume() {
-        super.onResume();
-        mNfcAdapter.setNdefPushMessage(null, this, this);
-        // Check to see that the Activity started due to an Android Beam
-        if (NfcAdapter.ACTION_NDEF_DISCOVERED.equals(getIntent().getAction())) {
-            processIntent(getIntent());
-        }
-    }
-
-    /**
-     * Parses the NDEF Message from the intent and prints to the TextView
-     */
-    void processIntent(Intent intent) {
-        Parcelable[] rawMsgs = intent.getParcelableArrayExtra(
-                NfcAdapter.EXTRA_NDEF_MESSAGES);
-        // only one message sent during the beam
-        NdefMessage msg = (NdefMessage) rawMsgs[0];
-        // record 0 contains the MIME type, record 1 is the AAR, if present
-        Toast.makeText(MainActivity.this,new String(msg.getRecords()[0].getPayload()),Toast.LENGTH_LONG).show();
+    public void onPause() {
+        CommandEnum val = SPHelper.getCommand(MainActivity.this,SPHelper.CURRENT_COMMAND);
+        SPHelper.putCommand(MainActivity.this,SPHelper.SAVED_COMMAND,val);
+        SPHelper.putCommand(MainActivity.this,SPHelper.CURRENT_COMMAND,CommandEnum.NONE);
+        super.onPause();
     }
 
     @Override
-    public void onNewIntent(Intent intent) {
-        // onResume gets called after this to handle the intent
-        setIntent(intent);
+    public void onResume() {
+        CommandEnum val = SPHelper.getCommand(MainActivity.this,SPHelper.SAVED_COMMAND);
+        SPHelper.putCommand(MainActivity.this,SPHelper.CURRENT_COMMAND,val);
+        super.onResume();
     }
 
     @SuppressWarnings("StatementWithEmptyBody")
@@ -115,14 +93,14 @@ public class MainActivity extends AppCompatActivity
             case R.id.nav_nfc_doorlock_control:
                 fragmentClass = NFCDoorlockControlFragment.class;
                 break;
-            case R.id.nav_nfc_p2p_target:
-                fragmentClass = NFCWifiConfigFragment.class;
+            case R.id.nav_nfc_doorlock_registration:
+                fragmentClass = NFCDoorlockRegistrationFragment.class;
                 break;
             case R.id.nav_iot:
 
                 break;
             case R.id.nav_config:
-
+                fragmentClass = NFCWifiConfigFragment.class;
                 break;
             default:
                 return true;

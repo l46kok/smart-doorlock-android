@@ -1,0 +1,84 @@
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="app.smartdoorlock.com.smartdoorlockandroidapp.NFCDoorlockRegistrationFragment">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+        <RelativeLayout
+            android:id="@+id/fragment_nfc_doorlock_reg_rl_si_header"
+            android:background="@drawable/bg_category_header"
+            android:layout_width="match_parent"
+            android:layout_height="36dp">
+
+            <TextView
+                android:text="Smartphone Information"
+                style="@style/rl_category_header" />
+        </RelativeLayout>
+
+
+        <TableLayout
+            android:id="@+id/fragment_nfc_doorlock_reg_tl_si_info"
+            android:layout_below="@id/fragment_nfc_doorlock_reg_rl_si_header"
+            android:layout_marginLeft="6dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+            <TableRow
+                android:layout_marginTop="10dp">
+                <TextView
+                    android:textSize="17sp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginRight="10dp"
+                    android:text="Smartphone ID: ">
+                </TextView>
+
+                <TextView
+                    android:textSize="17sp"
+                    android:id="@+id/fragment_nfc_doorlock_reg_tv_smartphone_id"
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:layout_height="wrap_content">
+                </TextView>
+            </TableRow>
+            <TableRow
+                android:layout_marginTop="10dp">
+                <TextView
+                    android:textSize="17sp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginRight="10dp"
+                    android:text="Registration Date: ">
+                </TextView>
+
+                <TextView
+                    android:textSize="17sp"
+                    android:id="@+id/fragment_nfc_doorlock_reg_tv_reg_date"
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:layout_height="wrap_content">
+                </TextView>
+            </TableRow>
+        </TableLayout>
+
+        <TextView
+            android:layout_below="@id/fragment_nfc_doorlock_reg_tl_si_info"
+            android:id="@+id/fragment_nfc_doorlock_reg_tv_help"
+            android:text="Press button to generate a random ID\n\nTap phone to doorlock to register"
+            android:gravity="center"
+            android:textSize="18sp"
+            android:textStyle="bold"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"/>
+
+        <Button
+            android:id="@+id/fragment_nfc_doorlock_btn_gen_id"
+            style="@style/btn_random_id"/>
+    </RelativeLayout>
+
+
+</FrameLayout>

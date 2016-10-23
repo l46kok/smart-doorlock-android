@@ -7,7 +7,7 @@
             android:icon="@drawable/ic_menu_camera"
             android:title="NFC (Control)" />
         <item
-            android:id="@+id/nav_nfc_p2p_target"
+            android:id="@+id/nav_nfc_doorlock_registration"
             android:icon="@drawable/ic_menu_gallery"
             android:title="NFC (Registration)" />
         <item

@@ -2,9 +2,13 @@ package app.smartdoorlock.com.smartdoorlockandroidapp;
 
 import android.nfc.cardemulation.HostApduService;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.util.Log;
 
 import java.util.Arrays;
+
+import app.smartdoorlock.com.smartdoorlockandroidapp.Enums.CommandEnum;
+import app.smartdoorlock.com.smartdoorlockandroidapp.Utility.SPHelper;
 
 /**
  * Created by shuh on 10/22/2016.
@@ -44,18 +48,36 @@ public class NFCDoorlockControl extends HostApduService {
     @Override
     public byte[] processCommandApdu(byte[] commandApdu, Bundle extras) {
         Log.i(TAG, "Received APDU: " + ByteArrayToHexString(commandApdu));
-        // If the APDU matches the SELECT AID command for this service,
-        // send the loyalty card account number, followed by a SELECT_OK status trailer (0x9000).
-        if (Arrays.equals(SELECT_APDU, commandApdu)) {
-            String account = "D_OPEN" + "Android ID";
-            byte[] accountBytes = account.getBytes();
-            Log.i(TAG, "Sending account number: " + account);
-            Log.i(TAG, "Byte response: " + ByteArrayToHexString(ConcatArrays(SELECT_OK_SW, accountBytes)));
-            return ConcatArrays(SELECT_OK_SW, accountBytes);
-            //return SELECT_OK_SW;
-        } else {
+        if (!Arrays.equals(SELECT_APDU, commandApdu)) {
             return UNKNOWN_CMD_SW;
         }
+        CommandEnum enumVal = SPHelper.getCommand(NFCDoorlockControl.this,SPHelper.CURRENT_COMMAND);
+        // If the APDU matches the SELECT AID command for this service,
+        // send the loyalty card account number, followed by a SELECT_OK status trailer (0x9000).
+        String payload;
+        switch (enumVal) {
+            case DOORLOCK_CONTROL:
+                String phoneId = SPHelper.getString(NFCDoorlockControl.this,SPHelper.KEY_PHONE_ID);
+                payload = "D_OPEN" + "|" + phoneId;
+                return getAckPayload(payload);
+            case DOORLOCK_REGISTRATION:
+                String newId = SPHelper.getString(NFCDoorlockControl.this,SPHelper.KEY_PENDING_PHONE_ID);
+                if (!TextUtils.isEmpty(newId)) {
+                    payload = "D_REG" + "|" + newId;
+                    return getAckPayload(payload);
+                }
+                break;
+            default:
+                break;
+        }
+        return null;
+    }
+
+    private byte[] getAckPayload(String content) {
+        byte[] payload = content.getBytes();
+        Log.i(TAG, "NFC Responding with: " + content);
+        Log.i(TAG, "Byte response: " + ByteArrayToHexString(payload));
+        return ConcatArrays(SELECT_OK_SW, payload);
     }
     // END_INCLUDE(processCommandApdu)
 
