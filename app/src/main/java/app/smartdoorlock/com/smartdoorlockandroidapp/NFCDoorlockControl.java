@@ -12,7 +12,7 @@ import java.util.Arrays;
 
 public class NFCDoorlockControl extends HostApduService {
     private static final String TAG = "CardService";
-    // AID for our loyalty card service.
+    // AID for smart doorlock
     private static final String SAMPLE_LOYALTY_CARD_AID = "D2760000850101";
     // ISO-DEP command HEADER for selecting an AID.
     // Format: [Class | Instruction | Parameter 1 | Parameter 2]

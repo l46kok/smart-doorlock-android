@@ -112,7 +112,7 @@ public class MainActivity extends AppCompatActivity
         Fragment fragment = null;
         Class fragmentClass = null;
         switch(menuItem.getItemId()) {
-            case R.id.nav_nfc_p2p_initiator:
+            case R.id.nav_nfc_doorlock_control:
                 fragmentClass = NFCDoorlockControlFragment.class;
                 break;
             case R.id.nav_nfc_p2p_target:
