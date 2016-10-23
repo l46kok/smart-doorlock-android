@@ -6,6 +6,7 @@
 
     <!-- TODO: Update blank fragment layout -->
     <TextView
+        android:id="@+id/fragment_nfc_doorlock_ctl_tv_info"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:gravity="center"

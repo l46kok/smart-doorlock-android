@@ -10,14 +10,17 @@ import java.util.Arrays;
 import app.smartdoorlock.com.smartdoorlockandroidapp.Enums.CommandEnum;
 import app.smartdoorlock.com.smartdoorlockandroidapp.Utility.SPHelper;
 
+import static app.smartdoorlock.com.smartdoorlockandroidapp.Enums.CommandEnum.DOORLOCK_CONTROL;
+import static app.smartdoorlock.com.smartdoorlockandroidapp.Enums.CommandEnum.DOORLOCK_REGISTRATION;
+
 /**
  * Created by shuh on 10/22/2016.
  */
 
-public class NFCDoorlockControl extends HostApduService {
+public class NFCDoorlockHCE extends HostApduService {
     private static final String TAG = "CardService";
     // AID for smart doorlock
-    private static final String SAMPLE_LOYALTY_CARD_AID = "D2760000850101";
+    private static final String SMART_DOORLOCK_AID = "D2760000850101";
     // ISO-DEP command HEADER for selecting an AID.
     // Format: [Class | Instruction | Parameter 1 | Parameter 2]
     private static final String SELECT_APDU_HEADER = "00A40400";
@@ -25,7 +28,7 @@ public class NFCDoorlockControl extends HostApduService {
     private static final byte[] SELECT_OK_SW = HexStringToByteArray("9000");
     // "UNKNOWN" status word sent in response to invalid APDU command (0x0000)
     private static final byte[] UNKNOWN_CMD_SW = HexStringToByteArray("0000");
-    private static final byte[] SELECT_APDU = BuildSelectApdu(SAMPLE_LOYALTY_CARD_AID);
+    private static final byte[] SELECT_APDU = BuildSelectApdu(SMART_DOORLOCK_AID);
 
     /**
      * Called if the connection to the NFC card is lost, in order to let the application know the
@@ -51,19 +54,20 @@ public class NFCDoorlockControl extends HostApduService {
         if (!Arrays.equals(SELECT_APDU, commandApdu)) {
             return UNKNOWN_CMD_SW;
         }
-        CommandEnum enumVal = SPHelper.getCommand(NFCDoorlockControl.this,SPHelper.CURRENT_COMMAND);
+        CommandEnum enumVal = SPHelper.getCommand(NFCDoorlockHCE.this,SPHelper.CURRENT_COMMAND);
         // If the APDU matches the SELECT AID command for this service,
         // send the loyalty card account number, followed by a SELECT_OK status trailer (0x9000).
         String payload;
         switch (enumVal) {
             case DOORLOCK_CONTROL:
-                String phoneId = SPHelper.getString(NFCDoorlockControl.this,SPHelper.KEY_PHONE_ID);
-                payload = "D_OPEN" + "|" + phoneId;
+                String phoneId = SPHelper.getString(NFCDoorlockHCE.this,SPHelper.KEY_PHONE_ID);
+                payload = DOORLOCK_CONTROL.toString() + "|" + phoneId;
                 return getAckPayload(payload);
             case DOORLOCK_REGISTRATION:
-                String newId = SPHelper.getString(NFCDoorlockControl.this,SPHelper.KEY_PENDING_PHONE_ID);
+                String newId = SPHelper.getString(NFCDoorlockHCE.this,SPHelper.KEY_PENDING_PHONE_ID);
                 if (!TextUtils.isEmpty(newId)) {
-                    payload = "D_REG" + "|" + newId;
+                    payload = DOORLOCK_REGISTRATION.toString() + "|" + newId;
+                    SPHelper.putString(NFCDoorlockHCE.this,SPHelper.KEY_PHONE_ID,newId);
                     return getAckPayload(payload);
                 }
                 break;

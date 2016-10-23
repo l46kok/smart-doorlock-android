@@ -12,6 +12,7 @@ import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import app.smartdoorlock.com.smartdoorlockandroidapp.Enums.CommandEnum;
@@ -21,8 +22,7 @@ import static android.nfc.NdefRecord.createMime;
 
 
 public class NFCDoorlockControlFragment extends Fragment {
-
-    private IFragmentInteractionListener mListener;
+    private TextView tvInfo;
 
     public NFCDoorlockControlFragment() {
         // Required empty public constructor
@@ -43,38 +43,28 @@ public class NFCDoorlockControlFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View v = inflater.inflate(R.layout.fragment_nfc_doorlock_control, container, false);
+        tvInfo = (TextView) v.findViewById(R.id.fragment_nfc_doorlock_ctl_tv_info);
 
-        return v;
-    }
-
-    // TODO: Rename method, update argument and hook method into UI event
-    public void onButtonPressed(Uri uri) {
-        if (mListener != null) {
-            mListener.onFragmentInteraction("TEST");
-        }
-    }
-
-    @Override
-    public void onAttach(Context context) {
-        super.onAttach(context);
-        if (context instanceof IFragmentInteractionListener) {
-            mListener = (IFragmentInteractionListener) context;
-        } else {
-            throw new RuntimeException(context.toString()
-                    + " must implement OnFragmentInteractionListener");
-        }
         String phoneId = SPHelper.getString(getActivity(),SPHelper.KEY_PHONE_ID);
         if (TextUtils.isEmpty(phoneId)) {
+            tvInfo.setText("Phone ID could not be found.\n\nPlease register phone to Smart Doorlock first");
             SPHelper.putCommand(getActivity(),SPHelper.CURRENT_COMMAND, CommandEnum.NONE);
         }
         else {
             SPHelper.putCommand(getActivity(),SPHelper.CURRENT_COMMAND, CommandEnum.DOORLOCK_CONTROL);
         }
+
+        return v;
+    }
+
+    @Override
+    public void onAttach(Context context) {
+        super.onAttach(context);
+
     }
 
     @Override
     public void onDetach() {
         super.onDetach();
-        mListener = null;
     }
 }
