@@ -2,7 +2,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="app.smartdoorlock.com.smartdoorlockandroidapp.NFCP2PInitiatorFragment">
+    tools:context="app.smartdoorlock.com.smartdoorlockandroidapp.NFCDoorlockControlFragment">
 
     <!-- TODO: Update blank fragment layout -->
     <TextView
@@ -10,6 +10,6 @@
         android:layout_height="match_parent"
         android:gravity="center"
         android:textSize="18sp"
-        android:text="Initiating P2P Initiator Mode\n\nPlease tap a NFC P2P compatible device" />
+        android:text="NFC doorlock control active\n\nPlease tap phone to the doorlock" />
 
 </FrameLayout>

@@ -1,7 +1,6 @@
 package app.smartdoorlock.com.smartdoorlockandroidapp;
 
 import android.content.Intent;
-import android.net.Uri;
 import android.nfc.NdefMessage;
 import android.nfc.NfcAdapter;
 import android.os.Bundle;
@@ -42,7 +41,6 @@ public class MainActivity extends AppCompatActivity
         mNfcAdapter = NfcAdapter.getDefaultAdapter(this);
         if (mNfcAdapter == null) {
             Toast.makeText(this, "NFC is not available", Toast.LENGTH_LONG).show();
-            finish();
             return;
         }
     }
@@ -82,6 +80,7 @@ public class MainActivity extends AppCompatActivity
     @Override
     public void onResume() {
         super.onResume();
+        mNfcAdapter.setNdefPushMessage(null, this, this);
         // Check to see that the Activity started due to an Android Beam
         if (NfcAdapter.ACTION_NDEF_DISCOVERED.equals(getIntent().getAction())) {
             processIntent(getIntent());
@@ -114,10 +113,10 @@ public class MainActivity extends AppCompatActivity
         Class fragmentClass = null;
         switch(menuItem.getItemId()) {
             case R.id.nav_nfc_p2p_initiator:
-                fragmentClass = NFCP2PInitiatorFragment.class;
+                fragmentClass = NFCDoorlockControlFragment.class;
                 break;
             case R.id.nav_nfc_p2p_target:
-                fragmentClass = NFCP2PTargetFragment.class;
+                fragmentClass = NFCWifiConfigFragment.class;
                 break;
             case R.id.nav_iot:
 

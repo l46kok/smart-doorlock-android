@@ -1,7 +1,6 @@
 package app.smartdoorlock.com.smartdoorlockandroidapp;
 
 import android.content.Context;
-import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -10,16 +9,16 @@ import android.view.View;
 import android.view.ViewGroup;
 
 
-public class NFCP2PTargetFragment extends Fragment {
+public class NFCWifiConfigFragment extends Fragment {
 
     private IFragmentInteractionListener mListener;
 
-    public NFCP2PTargetFragment() {
+    public NFCWifiConfigFragment() {
         // Required empty public constructor
     }
 
-    public static NFCP2PTargetFragment newInstance() {
-        NFCP2PTargetFragment fragment = new NFCP2PTargetFragment();
+    public static NFCWifiConfigFragment newInstance() {
+        NFCWifiConfigFragment fragment = new NFCWifiConfigFragment();
         return fragment;
     }
 
@@ -32,7 +31,7 @@ public class NFCP2PTargetFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_nfcp2p_target, container, false);
+        return inflater.inflate(R.layout.fragment_nfc_wifi_config, container, false);
     }
 
     // TODO: Rename method, update argument and hook method into UI event
