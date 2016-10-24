@@ -64,10 +64,9 @@ public class NFCDoorlockHCE extends HostApduService {
                 payload = DOORLOCK_CONTROL.toString() + "|" + phoneId;
                 return getAckPayload(payload);
             case DOORLOCK_REGISTRATION:
-                String newId = SPHelper.getString(NFCDoorlockHCE.this,SPHelper.KEY_PENDING_PHONE_ID);
+                String newId = SPHelper.getString(NFCDoorlockHCE.this,SPHelper.KEY_PHONE_ID);
                 if (!TextUtils.isEmpty(newId)) {
                     payload = DOORLOCK_REGISTRATION.toString() + "|" + newId;
-                    SPHelper.putString(NFCDoorlockHCE.this,SPHelper.KEY_PHONE_ID,newId);
                     return getAckPayload(payload);
                 }
                 break;

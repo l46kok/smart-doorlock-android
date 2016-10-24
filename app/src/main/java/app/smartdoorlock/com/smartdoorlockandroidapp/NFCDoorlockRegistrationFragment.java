@@ -61,7 +61,7 @@ public class NFCDoorlockRegistrationFragment extends Fragment {
             public void onClick(View v) {
                 String randId = new BigInteger(130, random).toString(32);
                 tvPhoneId.setText(randId);
-                SPHelper.putString(getActivity(),SPHelper.KEY_PENDING_PHONE_ID,randId);
+                SPHelper.putString(getActivity(),SPHelper.KEY_PHONE_ID,randId);
             }
         });
         return v;
