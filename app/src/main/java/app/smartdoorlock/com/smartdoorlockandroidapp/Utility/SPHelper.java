@@ -16,7 +16,7 @@ public class SPHelper {
     public static final String CURRENT_COMMAND = "CURRENT_COMMAND";
     public static final String SAVED_COMMAND = "SAVED_COMMAND";
     public static final String KEY_PHONE_ID = "PHONE_ID";
-    public static final String KEY_PENDING_PHONE_ID = "PENDING_PHONE_ID";
+    public static final String KEY_REGISTRATION_DATE = "REG_DATE";
     public static final String KEY_REGISTRATION = "REGISTRATION";
     public static final String KEY_CONFIG_WIFI = "WIFI";
 
