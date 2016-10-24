@@ -1,17 +1,22 @@
 package app.smartdoorlock.com.smartdoorlockandroidapp;
 
+import android.content.Intent;
 import android.nfc.cardemulation.HostApduService;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.util.Log;
+import android.widget.Toast;
 
+import java.text.SimpleDateFormat;
 import java.util.Arrays;
+import java.util.Date;
 
 import app.smartdoorlock.com.smartdoorlockandroidapp.Enums.CommandEnum;
 import app.smartdoorlock.com.smartdoorlockandroidapp.Utility.SPHelper;
 
 import static app.smartdoorlock.com.smartdoorlockandroidapp.Enums.CommandEnum.DOORLOCK_CONTROL;
 import static app.smartdoorlock.com.smartdoorlockandroidapp.Enums.CommandEnum.DOORLOCK_REGISTRATION;
+import static app.smartdoorlock.com.smartdoorlockandroidapp.Utility.SPHelper.KEY_REGISTRATION_DATE;
 
 /**
  * Created by shuh on 10/22/2016.
@@ -29,6 +34,8 @@ public class NFCDoorlockHCE extends HostApduService {
     // "UNKNOWN" status word sent in response to invalid APDU command (0x0000)
     private static final byte[] UNKNOWN_CMD_SW = HexStringToByteArray("0000");
     private static final byte[] SELECT_APDU = BuildSelectApdu(SMART_DOORLOCK_AID);
+
+    public static final String BR_REFRESH_FILTER = "NFC_REG_REFRESH";
 
     /**
      * Called if the connection to the NFC card is lost, in order to let the application know the
@@ -67,6 +74,16 @@ public class NFCDoorlockHCE extends HostApduService {
                 String newId = SPHelper.getString(NFCDoorlockHCE.this,SPHelper.KEY_PHONE_ID);
                 if (!TextUtils.isEmpty(newId)) {
                     payload = DOORLOCK_REGISTRATION.toString() + "|" + newId;
+                    Toast.makeText(NFCDoorlockHCE.this,"Successfully registered phone",Toast.LENGTH_LONG).show();
+                    SimpleDateFormat sdf = new SimpleDateFormat("MM/dd/yyyy HH:mm:ss");
+                    SPHelper.putString(NFCDoorlockHCE.this,KEY_REGISTRATION_DATE,sdf.format(new Date()));
+
+                    //Broadcast message to refresh fragment
+                    Intent intent = new Intent();
+                    intent.setAction(BR_REFRESH_FILTER);
+                    intent.putExtra(BR_REFRESH_FILTER, 1);
+                    sendBroadcast(intent);
+
                     return getAckPayload(payload);
                 }
                 break;
