@@ -11,9 +11,9 @@
             android:icon="@drawable/ic_menu_gallery"
             android:title="NFC (Registration)" />
         <item
-            android:id="@+id/nav_iot"
-            android:icon="@drawable/ic_menu_slideshow"
-            android:title="IoT" />
+            android:id="@+id/nav_nfc_wifi_config"
+            android:icon="@drawable/ic_menu_manage"
+            android:title="NFC (Wifi Config)" />
         <item
             android:id="@+id/nav_config"
             android:icon="@drawable/ic_menu_manage"

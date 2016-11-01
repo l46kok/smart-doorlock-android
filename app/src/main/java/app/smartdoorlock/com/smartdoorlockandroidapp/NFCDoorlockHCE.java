@@ -73,9 +73,10 @@ public class NFCDoorlockHCE extends HostApduService {
             case DOORLOCK_REGISTRATION:
                 String newId = SPHelper.getString(NFCDoorlockHCE.this,SPHelper.KEY_PHONE_ID);
                 if (!TextUtils.isEmpty(newId)) {
-                    payload = DOORLOCK_REGISTRATION.toString() + "|" + newId;
+                    SimpleDateFormat sdf = new SimpleDateFormat("MM/dd/yyyy");
+                    payload = DOORLOCK_REGISTRATION.toString() + "|" + newId + "|" + sdf.format(new Date());
                     Toast.makeText(NFCDoorlockHCE.this,"Successfully registered phone",Toast.LENGTH_LONG).show();
-                    SimpleDateFormat sdf = new SimpleDateFormat("MM/dd/yyyy HH:mm:ss");
+                    sdf = new SimpleDateFormat("MM/dd/yyyy HH:mm:ss");
                     SPHelper.putString(NFCDoorlockHCE.this,KEY_REGISTRATION_DATE,sdf.format(new Date()));
 
                     //Broadcast message to refresh fragment
