@@ -5,5 +5,37 @@ package app.smartdoorlock.com.smartdoorlockandroidapp.Enums;
  */
 
 public enum WifiSignalEnum {
-    FIVE,FOUR,THREE,TWO,ONE,NONE
+
+    FIVE(5),FOUR(4),THREE(3),TWO(2),ONE(1),NONE(0);
+
+    private Integer strength;
+
+    WifiSignalEnum(int strength) {
+        this.strength = strength;
+    }
+
+    public boolean isStrongerThan(WifiSignalEnum other) {
+        return this.strength > other.strength;
+    }
+
+    public static WifiSignalEnum GetSignalFromLevel(int level) {
+        if (level >= -50) {
+            return FIVE;
+        }
+        else if (level >= -60) {
+            return FOUR;
+        }
+        else if (level >= -70) {
+            return THREE;
+        }
+        else if (level >= -80) {
+            return TWO;
+        }
+        else if (level >= -95) {
+            return ONE;
+        }
+        else {
+            return NONE;
+        }
+    }
 }

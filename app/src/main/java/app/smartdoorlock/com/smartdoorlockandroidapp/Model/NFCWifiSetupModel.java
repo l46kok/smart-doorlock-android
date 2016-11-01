@@ -8,14 +8,12 @@ import app.smartdoorlock.com.smartdoorlockandroidapp.Enums.WifiSignalEnum;
 
 public class NFCWifiSetupModel {
     private String ssid;
-    private String password;
     private WifiSignalEnum signal;
     private boolean isEncrypted;
     private String encryptionType;
 
-    public NFCWifiSetupModel(String ssid, String password, WifiSignalEnum signal, boolean isEncrypted, String encryptionType) {
+    public NFCWifiSetupModel(String ssid, WifiSignalEnum signal, boolean isEncrypted, String encryptionType) {
         this.ssid = ssid;
-        this.password = password;
         this.signal = signal;
         this.isEncrypted = isEncrypted;
         this.encryptionType = encryptionType;
@@ -27,14 +25,6 @@ public class NFCWifiSetupModel {
 
     public void setSsid(String ssid) {
         this.ssid = ssid;
-    }
-
-    public String getPassword() {
-        return password;
-    }
-
-    public void setPassword(String password) {
-        this.password = password;
     }
 
     public WifiSignalEnum getSignal() {
