@@ -3,11 +3,38 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context="app.smartdoorlock.com.smartdoorlockandroidapp.NFCWifiSetupFragment">
-
-    <!-- TODO: Update blank fragment layout -->
-    <TextView
+    <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:text="@string/hello_blank_fragment" />
+        android:layout_height="match_parent">
 
+        <RelativeLayout
+            android:id="@+id/fragment_nfc_wifi_setup_rl_top"
+            android:background="@drawable/bg_category_header"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+            <Button
+                android:id="@+id/fragment_nfc_wifi_setup_btn_refresh"
+                android:layout_marginLeft="5dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Refresh">
+            </Button>
+            <Switch
+                android:id="@+id/fragment_nfc_wifi_setup_sw_wifi_enable"
+                android:layout_alignParentRight="true"
+                android:layout_marginRight="5dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text=" Wifi  "
+                android:layout_centerVertical="true" />
+        </RelativeLayout>
+
+
+        <ListView
+            android:id="@+id/fragment_nfc_wifi_setup_lv_wifi"
+            android:layout_below="@id/fragment_nfc_wifi_setup_rl_top"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
+    </RelativeLayout>
 </FrameLayout>
