@@ -2,14 +2,12 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="app.smartdoorlock.com.smartdoorlockandroidapp.NFCDoorlockControlFragment">
+    tools:context="app.smartdoorlock.com.smartdoorlockandroidapp.NFCWifiSetupFragment">
 
     <!-- TODO: Update blank fragment layout -->
     <TextView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:gravity="center"
-        android:textSize="18sp"
-        android:text="Initiating P2P Target Mode\n\nPlease tap a NFC P2P compatible device" />
+        android:text="@string/hello_blank_fragment" />
 
 </FrameLayout>

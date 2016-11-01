@@ -98,11 +98,10 @@ public class MainActivity extends AppCompatActivity
             case R.id.nav_nfc_doorlock_registration:
                 fragmentClass = NFCDoorlockRegistrationFragment.class;
                 break;
-            case R.id.nav_iot:
-
+            case R.id.nav_nfc_wifi_config:
+                fragmentClass = NFCWifiSetupFragment.class;
                 break;
             case R.id.nav_config:
-                fragmentClass = NFCWifiConfigFragment.class;
                 break;
             default:
                 return true;
