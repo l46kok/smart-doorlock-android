@@ -5,7 +5,6 @@ package app.smartdoorlock.com.smartdoorlockandroidapp.Adapters;
  */
 
 
-import android.app.Activity;
 import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -14,42 +13,48 @@ import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-public class NFCWifiSetupListAdapter {
+import java.util.ArrayList;
 
-    public NFCWifiSetupListAdapter(Context context) {
+import app.smartdoorlock.com.smartdoorlockandroidapp.Model.NFCWifiSetupModel;
+import app.smartdoorlock.com.smartdoorlockandroidapp.R;
+
+public class NFCWifiSetupListAdapter extends ArrayAdapter<NFCWifiSetupModel> {
+    private Context mCtx;
+    private ArrayList<NFCWifiSetupModel> mWifiList;
+    private ViewHolder mViewHolder;
+
+    private static class ViewHolder {
+        private TextView tvSSID;
+        private ImageView ivWifiSignal;
+        private ImageView ivWifiEncrypted;
+    }
+
+    public NFCWifiSetupListAdapter(Context context, ArrayList<NFCWifiSetupModel> wifiList) {
+        super(context, R.layout.listview_nfc_wifi_setup, wifiList);
+        mWifiList = wifiList;
+        mCtx = context;
+    }
+
+    public View getView(int position, View convertView, ViewGroup parent) {
+
+        if (convertView == null) {
+            convertView = LayoutInflater.from(this.getContext())
+                    .inflate(R.layout.listview_nfc_wifi_setup, parent, false);
+
+            mViewHolder = new ViewHolder();
+            mViewHolder.tvSSID = (TextView) convertView.findViewById(R.id.lv_nfc_wifi_setup_tv_SSID_NAME);
+            mViewHolder.ivWifiSignal = (ImageView) convertView.findViewById(R.id.lv_nfc_wifi_setup_iv_wifi_signal);
+            mViewHolder.ivWifiEncrypted= (ImageView) convertView.findViewById(R.id.lv_nfc_wifi_setup_iv_wifi_encrypted);
+            convertView.setTag(mViewHolder);
+        } else {
+            mViewHolder = (ViewHolder) convertView.getTag();
+        }
+
+        NFCWifiSetupModel wifiInfo = getItem(position);
+        if (wifiInfo!= null) {
+            mViewHolder.tvSSID.setText(wifiInfo.getSSID());
+        }
+
+        return convertView;
     }
 }
-
-
-/*
-
-public class CustomListAdapter extends ArrayAdapter<String> {
-
-    private final Activity context;
-    private final String[] itemname;
-    private final Integer[] imgid;
-
-    public CustomListAdapter(Activity context, String[] itemname, Integer[] imgid) {
-        super(context, R.layout.mylist, itemname);
-        // TODO Auto-generated constructor stub
-
-        this.context=context;
-        this.itemname=itemname;
-        this.imgid=imgid;
-    }
-
-    public View getView(int position,View view,ViewGroup parent) {
-        LayoutInflater inflater=context.getLayoutInflater();
-        View rowView=inflater.inflate(R.layout.mylist, null,true);
-
-        TextView txtTitle = (TextView) rowView.findViewById(R.id.item);
-        ImageView imageView = (ImageView) rowView.findViewById(R.id.icon);
-        TextView extratxt = (TextView) rowView.findViewById(R.id.textView1);
-
-        txtTitle.setText(itemname[position]);
-        imageView.setImageResource(imgid[position]);
-        extratxt.setText("Description "+itemname[position]);
-        return rowView;
-
-    };
-}*/
