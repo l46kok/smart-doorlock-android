@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/activity_nfcwifi_setup_send_fragment"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context="app.smartdoorlock.com.smartdoorlockandroidapp.NFCWifiSetupSendActivity">
+
+    <RelativeLayout
+        android:id="@+id/activity_nfc_wifi_setup_rl_si_header"
+        android:background="@drawable/bg_category_header"
+        android:layout_width="match_parent"
+        android:layout_height="36dp">
+
+        <TextView
+            android:text="Wifi Setup (NFC)"
+            style="@style/rl_category_header" />
+    </RelativeLayout>
+
+    <TableLayout
+        android:layout_marginLeft="6dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <TableRow android:layout_marginTop="10dp">
+            <TextView
+                android:textSize="17sp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginRight="10dp"
+                android:text="SSID">
+            </TextView>
+
+            <TextView
+                android:textSize="17sp"
+                android:id="@+id/activity_nfc_wifi_setup_send_ssid"
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:layout_height="wrap_content">
+            </TextView>
+        </TableRow>
+        <TableRow android:layout_marginTop="10dp">
+            <TextView
+                android:textSize="17sp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginRight="10dp"
+                android:text="Encryption">
+            </TextView>
+
+            <TextView
+                android:textSize="17sp"
+                android:id="@+id/activity_nfc_wifi_setup_send_encryption"
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:layout_height="wrap_content">
+            </TextView>
+        </TableRow>
+
+        <TableRow android:layout_marginTop="10dp">
+            <TextView
+                android:textSize="17sp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                
+                android:layout_marginRight="10dp"
+                android:text="Password">
+            </TextView>
+
+            <EditText
+                android:textSize="17sp"
+                android:id="@+id/activity_nfc_wifi_setup_send_et_password"
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:inputType="textPassword"
+                android:layout_height="wrap_content">
+            </EditText>
+        </TableRow>
+    </TableLayout>
+
+    <TextView android:layout_height="match_parent"
+        android:layout_width="match_parent"
+        android:gravity="center"
+        android:textSize="30sp"
+        android:textStyle="bold"
+        android:text="Tap phone to doorlock to\ntransfer wifi information">
+
+    </TextView>
+
+</LinearLayout>
