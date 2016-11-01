@@ -25,6 +25,7 @@ public class NFCWifiSetupListAdapter extends ArrayAdapter<NFCWifiSetupModel> {
 
     private static class ViewHolder {
         private TextView tvSSID;
+        private TextView tvEncrypted;
         private ImageView ivWifiSignal;
         private ImageView ivWifiEncrypted;
     }
@@ -42,9 +43,10 @@ public class NFCWifiSetupListAdapter extends ArrayAdapter<NFCWifiSetupModel> {
                     .inflate(R.layout.listview_nfc_wifi_setup, parent, false);
 
             mViewHolder = new ViewHolder();
-            mViewHolder.tvSSID = (TextView) convertView.findViewById(R.id.lv_nfc_wifi_setup_tv_SSID_NAME);
+            mViewHolder.tvSSID = (TextView) convertView.findViewById(R.id.lv_nfc_wifi_setup_tv_ssid_name);
             mViewHolder.ivWifiSignal = (ImageView) convertView.findViewById(R.id.lv_nfc_wifi_setup_iv_wifi_signal);
-            mViewHolder.ivWifiEncrypted= (ImageView) convertView.findViewById(R.id.lv_nfc_wifi_setup_iv_wifi_encrypted);
+            mViewHolder.ivWifiEncrypted = (ImageView) convertView.findViewById(R.id.lv_nfc_wifi_setup_iv_wifi_encrypted);
+            mViewHolder.tvEncrypted = (TextView) convertView.findViewById(R.id.lv_nfc_wifi_setup_tv_encrypted);
             convertView.setTag(mViewHolder);
         } else {
             mViewHolder = (ViewHolder) convertView.getTag();
@@ -53,6 +55,30 @@ public class NFCWifiSetupListAdapter extends ArrayAdapter<NFCWifiSetupModel> {
         NFCWifiSetupModel wifiInfo = getItem(position);
         if (wifiInfo!= null) {
             mViewHolder.tvSSID.setText(wifiInfo.getSSID());
+            if (!wifiInfo.isEncrypted()) {
+                mViewHolder.ivWifiEncrypted.setVisibility(View.GONE);
+                mViewHolder.tvEncrypted.setVisibility(View.GONE);
+            }
+            switch (wifiInfo.getSignal()) {
+                case FIVE:
+                    mViewHolder.ivWifiSignal.setImageResource(R.drawable.wifi_5_bar);
+                    break;
+                case FOUR:
+                    mViewHolder.ivWifiSignal.setImageResource(R.drawable.wifi_4_bar);
+                    break;
+                case THREE:
+                    mViewHolder.ivWifiSignal.setImageResource(R.drawable.wifi_3_bar);
+                    break;
+                case TWO:
+                    mViewHolder.ivWifiSignal.setImageResource(R.drawable.wifi_2_bar);
+                    break;
+                case ONE:
+                    mViewHolder.ivWifiSignal.setImageResource(R.drawable.wifi_1_bar);
+                    break;
+                case NONE:
+                    mViewHolder.ivWifiSignal.setImageResource(R.drawable.wifi_0_bar);
+                    break;
+            }
         }
 
         return convertView;
