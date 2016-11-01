@@ -1,6 +1,7 @@
 package app.smartdoorlock.com.smartdoorlockandroidapp;
 
 import android.Manifest;
+import android.app.ProgressDialog;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
@@ -10,10 +11,10 @@ import android.net.wifi.ScanResult;
 import android.net.wifi.WifiManager;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
 import android.text.TextUtils;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -22,11 +23,13 @@ import android.widget.ListView;
 import android.widget.Switch;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import app.smartdoorlock.com.smartdoorlockandroidapp.Adapters.NFCWifiSetupListAdapter;
 import app.smartdoorlock.com.smartdoorlockandroidapp.Enums.WifiSignalEnum;
 import app.smartdoorlock.com.smartdoorlockandroidapp.Model.NFCWifiSetupModel;
+import app.smartdoorlock.com.smartdoorlockandroidapp.Model.NFCWifiSetupModelComparator;
 
 
 public class NFCWifiSetupFragment extends Fragment {
@@ -39,6 +42,7 @@ public class NFCWifiSetupFragment extends Fragment {
     private WifiManager wifiManager;
     private static final int PERMISSIONS_REQUEST_CODE_ACCESS_COARSE_LOCATION = 1001;
 
+    private ProgressDialog pDialog;
 
     public NFCWifiSetupFragment() {
         // Required empty public constructor
@@ -66,9 +70,7 @@ public class NFCWifiSetupFragment extends Fragment {
         btnRefresh.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                requestPermissions();
-                wifiManager.startScan();
-
+                refreshWifiList();
             }
         });
 
@@ -82,6 +84,14 @@ public class NFCWifiSetupFragment extends Fragment {
         registerWifiReceiver();
 
         swWifi.setChecked(wifiManager.isWifiEnabled());
+
+        final Handler handler = new Handler();
+        handler.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                refreshWifiList();
+            }
+        }, 100);
 
         return v;
     }
@@ -108,7 +118,18 @@ public class NFCWifiSetupFragment extends Fragment {
         return null;
     }
 
-    private void refreshWifiList(List<ScanResult> scanList) {
+    private void refreshWifiList() {
+        requestPermissions();
+        wifiManager.startScan();
+        pDialog = new ProgressDialog(getActivity());
+        pDialog.setMessage("Scanning for access points...");
+        pDialog.setTitle("Smart Doorlock");
+        pDialog.setIndeterminate(false);
+        pDialog.setCancelable(false);
+        pDialog.show();
+    }
+
+    private void showWifiList(List<ScanResult> scanList) {
         wifiModelList.clear();
         for (ScanResult result : scanList) {
             //Check if same SSID has been added
@@ -126,8 +147,9 @@ public class NFCWifiSetupFragment extends Fragment {
                 }
             }
         }
-
+        Collections.sort(wifiModelList, new NFCWifiSetupModelComparator());
         wifiListAdapter.notifyDataSetChanged();
+        pDialog.dismiss();
     }
 
     private void registerWifiReceiver(){
@@ -138,7 +160,7 @@ public class NFCWifiSetupFragment extends Fragment {
                 StringBuilder sb = new StringBuilder();
                 List<ScanResult> scanList = wifiManager.getScanResults();
                 sb.append("\n  Number Of Wifi connections :" + " " +scanList.size()+"\n\n");
-                refreshWifiList(scanList);
+                showWifiList(scanList);
             }
 
         },filter);

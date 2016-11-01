@@ -22,13 +22,13 @@ public enum WifiSignalEnum {
         if (level >= -50) {
             return FIVE;
         }
-        else if (level >= -60) {
+        else if (level >= -65) {
             return FOUR;
         }
-        else if (level >= -70) {
+        else if (level >= -75) {
             return THREE;
         }
-        else if (level >= -80) {
+        else if (level >= -85) {
             return TWO;
         }
         else if (level >= -95) {

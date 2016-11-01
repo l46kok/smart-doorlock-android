@@ -1,10 +1,14 @@
 package app.smartdoorlock.com.smartdoorlockandroidapp.Model;
 
+import java.util.Comparator;
+
 import app.smartdoorlock.com.smartdoorlockandroidapp.Enums.WifiSignalEnum;
 
 /**
  * Created by shuh on 11/1/2016.
  */
+
+
 
 public class NFCWifiSetupModel {
     private String ssid;

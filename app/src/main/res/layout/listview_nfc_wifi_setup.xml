@@ -32,12 +32,13 @@
         android:layout_marginLeft="5dp"
         android:orientation="vertical">
         <TextView
-            android:id="@+id/lv_nfc_wifi_setup_tv_SSID_NAME"
+            android:id="@+id/lv_nfc_wifi_setup_tv_ssid_name"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textSize="25sp"
             android:text="TEST SSID" />
         <TextView
+            android:id="@+id/lv_nfc_wifi_setup_tv_encrypted"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textSize="15sp"
