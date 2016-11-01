@@ -14,6 +14,28 @@ public enum WifiSignalEnum {
         this.strength = strength;
     }
 
+    public int getValue() {
+        return strength;
+    }
+
+    public static WifiSignalEnum getSignalFromValue(int val) {
+        switch (val) {
+            case 5:
+                return FIVE;
+            case 4:
+                return FOUR;
+            case 3:
+                return THREE;
+            case 2:
+                return TWO;
+            case 1:
+                return ONE;
+            case 0:
+                return NONE;
+        }
+        return null;
+    }
+
     public boolean isStrongerThan(WifiSignalEnum other) {
         return this.strength > other.strength;
     }

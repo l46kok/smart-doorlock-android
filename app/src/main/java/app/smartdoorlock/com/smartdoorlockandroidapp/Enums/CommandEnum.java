@@ -5,7 +5,7 @@ package app.smartdoorlock.com.smartdoorlockandroidapp.Enums;
  */
 
 public enum CommandEnum {
-    NONE, DOORLOCK_CONTROL, DOORLOCK_REGISTRATION, WIFI_CONFIG;
+    NONE, DOORLOCK_CONTROL, DOORLOCK_REGISTRATION, WIFI_SETUP;
 
     public static CommandEnum toCommandEnum (String enumString) {
         try {

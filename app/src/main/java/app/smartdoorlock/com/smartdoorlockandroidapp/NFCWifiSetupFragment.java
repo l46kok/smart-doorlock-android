@@ -18,6 +18,7 @@ import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.ListView;
 import android.widget.Switch;
@@ -27,9 +28,11 @@ import java.util.Collections;
 import java.util.List;
 
 import app.smartdoorlock.com.smartdoorlockandroidapp.Adapters.NFCWifiSetupListAdapter;
+import app.smartdoorlock.com.smartdoorlockandroidapp.Enums.CommandEnum;
 import app.smartdoorlock.com.smartdoorlockandroidapp.Enums.WifiSignalEnum;
 import app.smartdoorlock.com.smartdoorlockandroidapp.Model.NFCWifiSetupModel;
 import app.smartdoorlock.com.smartdoorlockandroidapp.Model.NFCWifiSetupModelComparator;
+import app.smartdoorlock.com.smartdoorlockandroidapp.Utility.SPHelper;
 
 
 public class NFCWifiSetupFragment extends Fragment {
@@ -79,6 +82,14 @@ public class NFCWifiSetupFragment extends Fragment {
         wifiListAdapter = new NFCWifiSetupListAdapter(getActivity(), wifiModelList);
         lvWifi =(ListView)v.findViewById(R.id.fragment_nfc_wifi_setup_lv_wifi);
         lvWifi.setAdapter(wifiListAdapter);
+        lvWifi.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view,
+                                    int position, long id) {
+                startSendActivity(wifiModelList.get(position));
+            }
+        });
 
         wifiManager = (WifiManager)getActivity().getApplicationContext().getSystemService(Context.WIFI_SERVICE);
         registerWifiReceiver();
@@ -93,6 +104,7 @@ public class NFCWifiSetupFragment extends Fragment {
             }
         }, 100);
 
+        SPHelper.putCommand(getActivity(),SPHelper.CURRENT_COMMAND, CommandEnum.NONE);
         return v;
     }
 
@@ -108,6 +120,14 @@ public class NFCWifiSetupFragment extends Fragment {
                                             Manifest.permission.ACCESS_FINE_LOCATION},
                                             PERMISSIONS_REQUEST_CODE_ACCESS_COARSE_LOCATION );
         }
+    }
+
+    private void startSendActivity(NFCWifiSetupModel wifiInfo) {
+        Intent intent = new Intent(getActivity(), NFCWifiSetupSendActivity.class);
+        Bundle b = new Bundle();
+        b.putParcelable("WifiInfo",wifiInfo);
+        intent.putExtras(b); //Put your id to your next Intent
+        startActivity(intent);
     }
 
     private NFCWifiSetupModel getWifiInfoFromSSID(String ssid) {
@@ -179,6 +199,7 @@ public class NFCWifiSetupFragment extends Fragment {
     @Override
     public void onResume() {
         super.onResume();
+        SPHelper.putCommand(getActivity(),SPHelper.CURRENT_COMMAND, CommandEnum.NONE);
     }
 
 }

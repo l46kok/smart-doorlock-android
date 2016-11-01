@@ -16,6 +16,7 @@ import app.smartdoorlock.com.smartdoorlockandroidapp.Utility.SPHelper;
 
 import static app.smartdoorlock.com.smartdoorlockandroidapp.Enums.CommandEnum.DOORLOCK_CONTROL;
 import static app.smartdoorlock.com.smartdoorlockandroidapp.Enums.CommandEnum.DOORLOCK_REGISTRATION;
+import static app.smartdoorlock.com.smartdoorlockandroidapp.Enums.CommandEnum.WIFI_SETUP;
 import static app.smartdoorlock.com.smartdoorlockandroidapp.Utility.SPHelper.KEY_REGISTRATION_DATE;
 
 /**
@@ -88,6 +89,12 @@ public class NFCDoorlockHCE extends HostApduService {
                     return getAckPayload(payload);
                 }
                 break;
+            case WIFI_SETUP:
+                String ssid = SPHelper.getString(NFCDoorlockHCE.this,SPHelper.KEY_WIFI_SSID);
+                String password = SPHelper.getString(NFCDoorlockHCE.this,SPHelper.KEY_WIFI_PASSWORD);
+                String encryption = SPHelper.getString(NFCDoorlockHCE.this,SPHelper.KEY_WIFI_ENCRYPTION);
+                payload = WIFI_SETUP.toString() + "|" + ssid + "|" + password + "|" + encryption;
+                return getAckPayload(payload);
             default:
                 break;
         }
