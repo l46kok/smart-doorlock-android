@@ -14,7 +14,7 @@
             android:layout_marginLeft="5dp"
             android:layout_marginRight="5dp"
             android:layout_marginTop="5dp"
-            android:src="@drawable/WIFI_5_BAR" />
+            android:src="@drawable/wifi_5_bar" />
         <ImageView
             android:id="@+id/lv_nfc_wifi_setup_iv_wifi_encrypted"
             android:layout_width="25dp"
@@ -23,7 +23,7 @@
             android:layout_marginLeft="5dp"
             android:layout_marginRight="5dp"
             android:layout_marginTop="5dp"
-            android:src="@drawable/WIFI_ENCRYPTED" />
+            android:src="@drawable/wifi_encrypted" />
     </RelativeLayout>
     <LinearLayout
         android:layout_width="wrap_content"
